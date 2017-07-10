@@ -189,6 +189,10 @@ class SSHClientInteraction(object):
         # don't result in bad output cleaning
         self.current_send_string = ''
 
+        # Reset buffer_size to its default value
+        if buffer_size:
+            self.buffer_size = 1024
+
         # Clean the output up by removing the expect output from the end if
         # requested and save the details of the matched pattern
         if len(re_strings) != 0 and len(found_pattern) != 0:
