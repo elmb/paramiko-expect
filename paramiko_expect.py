@@ -88,7 +88,7 @@ class SSHClientInteraction(object):
         except:
             pass
 
-    def expect(self, re_strings='', timeout=None, output_callback=None, default_match_prefix='.*\n', strip_ansi=True):
+    def expect(self, re_strings='', timeout=None, output_callback=None, default_match_prefix='.*\n', strip_ansi=True, buffer_size=None):
         """
         This function takes in a regular expression (or regular expressions)
         that represent the last line of output from the server.  The function
@@ -111,6 +111,8 @@ class SSHClientInteraction(object):
                                      or the command has no output.
         :param strip_ansi: If True, will strip ansi control chars befores regex matching
                            default to True.
+        :param buffer_size: The amount of data (in bytes) that will be read at
+                                a time after a command is run.
         :return: An EOF returns -1, a regex metch returns 0 and a match in a
                  list of regexes returns the index of the matched string in
                  the list.
@@ -121,7 +123,9 @@ class SSHClientInteraction(object):
         # Set the channel timeout
         timeout = timeout if timeout else self.timeout
         self.channel.settimeout(timeout)
-
+        # Set the buffer size
+        if buffer_size:
+            self.buffer_size = buffer_size
         # Create an empty output buffer
         self.current_output = ''
 
