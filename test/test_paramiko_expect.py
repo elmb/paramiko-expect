@@ -56,6 +56,10 @@ def test_02_test_other_commnads(interact):
     interact.send('ls -l /')
     interact.expect(prompt, timeout=5)
 
+def test_02_test_expect_buffez_size(interact):
+    interact.send('ls -l /')
+    interact.expect(prompt, timeout=5, buffer_size=1)
+
 def test_03_test_demo_helper(interact):
     interact.expect(prompt)
     interact.send('python /examples/paramiko_expect-demo-helper.py')
